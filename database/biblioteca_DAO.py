@@ -1,4 +1,4 @@
-from database.DB_connect import DBConnect
+from database.DB_connect import DBConnect as DB
 from model.biblioteca_DTO import Biblioteca
 
 """
@@ -11,3 +11,13 @@ class BibliotecaDAO:
         pass
 
     # TODO
+    def get_biblioteca(self):
+        query = "SELECT * FROM biblioteca"
+        cnx = DB.get_connection()
+        cursor = cnx.cursor()
+        cursor.execute(query)
+        tutto = cursor.fetchall()
+        cursor.close()
+        cnx.close()
+        return tutto
+

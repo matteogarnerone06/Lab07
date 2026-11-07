@@ -1,4 +1,6 @@
 import flet as ft
+from flet.controls import alignment
+
 from UI.alert import AlertManager
 
 '''
@@ -38,9 +40,39 @@ class View:
         # --- Sezione 2: Filtraggio ---
         # TODO
 
+        scelta_biblioteca = ft.Dropdown(
+            width=220,
+            label="Biblioteca",
+            options=[ft.DropdownOption(key="Nessun opzione", text="Nessun opzione"),
+            #     ft.DropdownOption(key="Biblioteca civica Italo Calvino", text="Biblioteca civica Italo Calvino"),
+            #     ft.DropdownOption(key="Biblioteca civica Francesco Cognasso",
+            #                       text="Biblioteca civica Francesco Cognasso"),
+            #     ft.DropdownOption(key="Biblioteca civica Cesare Pavese", text="Biblioteca civica Cesare Pavese"),
+            #     ft.DropdownOption(key="Biblioteca musicale Andrea Della Corte",
+            #                       text="Biblioteca musicale Andrea Della Corte"),
+            #     ft.DropdownOption(key="Biblioteca del Centro interculturale",
+            #                       text="Biblioteca del Centro interculturale"),
+            #     ft.DropdownOption(key="Biblioteca civica Dietrich Bonhoeffer",
+            #                       text="Biblioteca civica Dietrich Bonhoeffer"),
+            #     ft.DropdownOption(key="Biblioteca civica Don Lorenzo Milani",
+            #                       text="Biblioteca civica Don Lorenzo Milani"),
+            #     ft.DropdownOption(key="Biblioteca civica Primo Levi", text="Biblioteca civica Primo Levi"),
+            #     ft.DropdownOption(key="Biblioteca civica Luigi Carluccio", text="Biblioteca civica Luigi Carluccio"),
+             ], on_select=self.controller.scelta_biblioteca
+        )
+        scelta_biblioteca = self.controller.popola_dd_biblioteca(scelta_biblioteca)
+
+        scelta_genere = ft.Dropdown(width=220, label="Genere", options=[],on_select=self.controller.scelta_genere)
+        scelta_genere.options.append(ft.DropdownOption(key="Nessun opzione",text="Nessun opzione"))
+        scelta_genere = self.controller.popola_dd_genere(scelta_genere)
+
+        row = ft.Row(controls=[scelta_biblioteca,scelta_genere],alignment = ft.MainAxisAlignment.CENTER)
         # Sezione 3: Libri
         # TODO
-
+        mostra = ft.Button("Mostra libri",on_click = self.controller.mostra)
+        self.listview = ft.ListView(auto_scroll=True,
+    controls=[],
+)
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
 
@@ -54,9 +86,12 @@ class View:
 
             # Sezione 2: Filtraggio
             # TODO
-
+            row,
             # Sezione 3: Libri
             # TODO
+            ft.Divider(),
+            mostra,
+            self.listview,
         )
 
         self.page.scroll = "adaptive"
